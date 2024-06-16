@@ -1,76 +1,467 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
-  @layer base {
-    :root {
-      --background: 0 0% 100%;
-      --foreground: 222.2 84% 4.9%;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
-      --card: 0 0% 100%;
-      --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-      --popover: 0 0% 100%;
-      --popover-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-      --primary: 222.2 47.4% 11.2%;
-      --primary-foreground: 210 40% 98%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
 
-      --secondary: 210 40% 96.1%;
-      --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-      --muted: 210 40% 96.1%;
-      --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-      --accent: 210 40% 96.1%;
-      --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-      --destructive: 0 84.2% 60.2%;
-      --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-      --border: 214.3 31.8% 91.4%;
-      --input: 214.3 31.8% 91.4%;
-      --ring: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
 
-      --radius: 0.5rem;
-    }
-
-    .dark {
-      --background: 222.2 84% 4.9%;
-      --foreground: 210 40% 98%;
-
-      --card: 222.2 84% 4.9%;
-      --card-foreground: 210 40% 98%;
-
-      --popover: 222.2 84% 4.9%;
-      --popover-foreground: 210 40% 98%;
-
-      --primary: 210 40% 98%;
-      --primary-foreground: 222.2 47.4% 11.2%;
-
-      --secondary: 217.2 32.6% 17.5%;
-      --secondary-foreground: 210 40% 98%;
-
-      --muted: 217.2 32.6% 17.5%;
-      --muted-foreground: 215 20.2% 65.1%;
-
-      --accent: 217.2 32.6% 17.5%;
-      --accent-foreground: 210 40% 98%;
-
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 40% 98%;
-
-      --border: 217.2 32.6% 17.5%;
-      --input: 217.2 32.6% 17.5%;
-      --ring: 212.7 26.8% 83.9%;
-    }
+    --radius: 0.5rem;
   }
 
-  @layer base {
-    * {
-      @apply border-border;
-    }
-    body {
-      @apply bg-background text-foreground;
-    }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .max-container {
+    @apply mx-auto max-w-[1440px];
+  }
+
+  .padding-container {
+    @apply px-6 lg:px-20;
+  }
+}
+
+
+/* -- */
+/* Hover Hero */
+.scenes {
+  position: relative;
+  aspect-ratio: 2.4 / 1;
+  outline: 2px solid #ccc;
+  height: 620px; /* Adjust height as needed */
+}
+
+.scene-1,
+.scene-2 {
+  inset: 0;
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.scene-1 {
+  background-image: url('/patera-hero.JPG');
+}
+
+.scene-2 {
+  background-image: url('/patera-hero-hover2.JPG');
+  -webkit-mask-image: linear-gradient(to right, transparent 47.5%, #fff 52.5%);
+  -webkit-mask-size: 210%;
+  -webkit-mask-position: left;
+  transition: -webkit-mask-position 2s linear;
+}
+
+.scene-2.hovered {
+  -webkit-mask-position: right;
+}
+
+
+/* -- */
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2; /* Ensure the navbar appears in front of the hero image */
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border-bottom: 1px solid transparent #e5e7eb;
+  transition: background-color 0.3s, border-bottom 0.3s;
+}
+
+.subNav {
+  /* color: #444; */
+  text-decoration: none;
+  /* text-transform: uppercase; */
+  /* font-size: 14px; */
+}
+
+.subNav :hover {
+  color: #000;
+}
+
+.subNav ::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background-color: #444;
+
+  position: absolute;
+  bottom: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+.subNav :hover::before {
+  width: 100%;
+}
+
+
+/* -- */
+/* Sliding Button Collection */
+.sliding-button {
+  position: relative;
+  overflow: hidden;
+  background-color: orange;
+  color: white;
+  border: 2px solid transparent;
+  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+}
+
+.sliding-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: left 0.4s ease-in-out;
+}
+
+.sliding-button:hover::before {
+  left: 0;
+}
+
+.sliding-button:hover {
+  color: #f97316;  /* text-color while hover */
+}
+
+.sliding-button span {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* -- */
+/* Sliding Button Coffeeshop */
+.sliding-button-coffeeshop {
+  overflow: hidden;
+  background-color: white; 
+  color: black; /* text-color */
+  border: 2px solid transparent;
+  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out, background-color 0.4s ease-in-out;
+}
+
+.sliding-button-coffeeshop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transition: left 0.4s ease-in-out;
+}
+
+.sliding-button-coffeeshop:hover::before {
+  left: 0;
+}
+
+.sliding-button-coffeeshop:hover {
+  color: black;  /* text-color while hover */
+  background-color: #f97316;
+  border: 2px solid;
+  border-color: white;
+}
+
+.sliding-button-coffeeshop span {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* -- */
+/* Coffeeshop Card */
+.coffeeshop-card {
+  overflow: hidden;
+}
+
+.coffeeshop-image {
+  transition: transform 5s ease-in-out;
+}
+
+.coffeeshop-imageContainer:hover .coffeeshop-image {
+  transform: scale(1.4);
+}
+
+
+/* -- */
+/* Partnership Scroll Horizontal */
+.scroll-container {
+  position: relative;
+  width: 100%; /* Ensures the container takes up the full width of its parent */
+  overflow: hidden;
+}
+
+.carousel-primary,
+.carousel-secondary {
+  /* width: 80%;  */
+  display: flex;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  /* position: relative; */
+}
+
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex:0 0 calc(100% / 6)
+}
+
+.carousel-primary {
+  /* top: 0; */
+  animation: scroll-horizontal 30s linear infinite;
+}
+
+.carousel-secondary {
+  /* bottom: 0; */
+  animation: scroll-horizontal-reverse 30s linear infinite;
+}
+
+@keyframes scroll-horizontal {
+  /* 0% {
+    transform: translateX(0%);
+  } */
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-horizontal-reverse {
+  /* 0% {
+    transform: translateX(0%);
+  } */
+
+  0% {
+    transform: translateX(-100%);
+  }
+}
+
+.carousel-primary:hover,
+.carousel-secondary:hover{
+  animation-play-state: paused;
+}
+
+
+/* --
+Dropdown Navbar */
+*,*:before, *:after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+.dropdown-container {
+	background: transparent;
+	padding: 10px;
+	/* background: rgba(64 64 64); */
+	/* width: 250px; */
+  /* height: 95px; */
+	/* min-height: 10px; */
+}
+
+input#checkbox {
+	display: none;
+}
+
+label {
+	width: 50px;
+	height: 30px;
+	display: flex;
+  left: 20px;
+  top: 30px;
+	transition: 0.2s linear;
+	position: absolute;
+  cursor: pointer;
+  z-index: 1;
+}
+
+label:after {
+	margin-left: 9px;
+	position: absolute;
+	content:'';
+	background: black; /* sign color 1 */
+	width: 20px;
+	height: 2px; 
+	box-shadow: 0 6px 0px black; /* sign color 2 */
+
+	top: 15px;
+}
+label:before {
+	margin-left: 9px;
+	position: absolute;
+	content:'';
+	background:black; /* sign color 3 */
+	width: 20px;
+	height: 2px;
+	top: 9px;;
+	left: 0;
+}
+
+.menu-content {
+	line-height: 2em;
+	background: rgb(64 64 64);
+  width: 300px; /* menu content width */
+  padding-top: 80px;
+	box-shadow: 0 8px 20px -10px rgba(0,0,0,.2);
+	overflow: hidden;
+  position: absolute;
+	transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transform: translateX(-100%);
+	color: white;
+	opacity: 0;
+  top: 0px;
+  left: 65px;
+	/* max-width: 200px; */
+  /* height: 30vh; */
+}
+
+ul {
+	list-style: none;
+}
+
+ul > li {
+	padding: 5px 14px;
+	cursor: default;
+	transition: 0.2s ease-in-out;
+	border-left: 3px solid transparent;
+	font-weight: 300;
+}
+
+ul > li {
+	border-bottom: 1px solid rgba(0,0,0,.03500);
+}
+
+ul > li:last-child {
+	border-bottom: 0;
+}
+
+ul > li:hover {
+	background: rgba(0,0,0,0.05);
+	border-left: 3px solid rgb(251 146 60);
+	font-weight: 400;
+}
+
+ul > li:active {
+	background: rgb(64 64 64);
+}
+
+input:checked ~ .menu-content {
+	opacity: 1;
+  transform: translateX(0);
+  left: 0;
+  /* max-height: 500px; */
+}
+
+input:checked ~ label:after {
+	background: white; /* sign x color 1 */
+	top: 18px;
+  right: 25px;
+  position: relative;
+	transform: rotate(45deg);
+	box-shadow: 0 6px 0px rgba(0,0,0,0);
+}
+
+input:checked ~ label:before {
+	background: white; /* sign x color 2 */
+	top: 18px;
+  right: 20px;
+  position: relative;
+	transform: rotate(-45deg);
+}
+
+.subnav-dropdown-container {
+  background: rgb(64, 64, 64);
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.2);
+  top: 0;
+  z-index: 2;
+  /* position: absolute; */ 
+}
+
+.subnav-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-left: 2px solid rgb(251, 146, 60);
+  font-weight: 400;
+}
+
+.subnav-item:active {
+  background: rgb(64, 64, 64);
+}
+
+.subnav-dropdown-icon {
+  display: flex;
+  align-items: center;
+}
