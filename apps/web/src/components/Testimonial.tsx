@@ -1,14 +1,7 @@
 import Image from 'next/image';
-import { FC } from 'react';
 import { TESTIMONIAL } from '../../constant';
 
-interface TestimonialProps {
-  name: string;
-  description: string;
-  image: string;
-}
-
-const Testimonial: FC<TestimonialProps> = () => {
+const Testimonial = () => {
   return (
     <section className="padding-container max-container">
       <div className="mt-24 text-xl font-semibold">TESTIMONIAL</div>

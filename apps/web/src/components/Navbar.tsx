@@ -56,8 +56,8 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-row items-center gap-4">
-          {NAV_LINKS.map((nav: NavLink) => (
-            <div key={nav.key} className="relative">
+          {NAV_LINKS.map((nav: NavLink, index) => (
+            <div key={index} className="relative">
               <div className="subNav hidden md:flex">
                 <Link href={nav.href}>
                   <div
@@ -105,8 +105,8 @@ const Navbar = () => {
         className="fixed bottom-4 right-5 flex flex-col gap-2"
         style={{ alignSelf: 'flex-end' }}
       >
-        {SOCIAL_ICON_LINKS.map((icon: IconLink) => (
-          <Link href={icon.href}>
+        {SOCIAL_ICON_LINKS.map((icon: IconLink, index) => (
+          <Link href={icon.href} key={index}>
             <div className="cursor-pointer">
               <Image
                 src={icon.icon}

@@ -13,10 +13,12 @@ const CoffeeshopHero = () => {
 
       {/* Card */}
       <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
-        {COFFEESHOP_CLIENT.map((value) => (
+        {COFFEESHOP_CLIENT.map((value, id) => (
           <Card
             className="coffeeshop-card relative"
             style={{ height: '450px' }}
+            key={id}
+            
           >
             <div className="coffeeshop-imageContainer absolute inset-0">
               <Image

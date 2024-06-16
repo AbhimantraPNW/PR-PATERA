@@ -10,8 +10,8 @@ export const Footer = () => {
       <Separator />
       <footer className="padding-container max-container mt-10">
         <div className="flex md:flex-row flex-col justify-between">
-          {FOOTER_ABOUT.map((about: FooterAboutProps) => (
-            <div className="flex flex-col md:gap-3 gap-2">
+          {FOOTER_ABOUT.map((about: FooterAboutProps, index) => (
+            <div className="flex flex-col md:gap-3 gap-2" key={index}>
               <h1>{about.title}</h1>
               <p className="max-w-[300px] text-slate-500">
                 {about.description}
@@ -29,15 +29,15 @@ export const Footer = () => {
             </div>
           ))}
 
-          {DEVELOPER_TEAM.map((developer: DeveloperTeamProps) => (
-            <div className="md:ml-40 md:mt-0 mt-8 flex flex-col md:text-right md:gap-3 gap-2">
+          {DEVELOPER_TEAM.map((developer: DeveloperTeamProps, index) => (
+            <div className="md:ml-40 md:mt-0 mt-8 flex flex-col md:text-right md:gap-3 gap-2" key={index}>
               {developer.title}
               <span className="text-slate-500">{developer.email}</span>
             </div>
           ))}
 
-          {PATERA_STORE.map((store: PateraStoreProps) => (
-            <div className="flex flex-col md:mt-0 mt-8 md:gap-3 gap-2">
+          {PATERA_STORE.map((store: PateraStoreProps, index) => (
+            <div className="flex flex-col md:mt-0 mt-8 md:gap-3 gap-2" key={index}>
               <h1>{store.title}</h1>
               <p className="max-w-[400px] text-slate-500">{store.address}</p>
               <span className="text-slate-500">{store.contact}</span>
