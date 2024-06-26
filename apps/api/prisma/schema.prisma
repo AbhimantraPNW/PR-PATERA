@@ -19,3 +19,14 @@ model Sample {
 
   @@map("samples") // if you want to use snake_case format
 }
+
+model Custom {
+  id        Int      @id @default(autoincrement())
+  name      String
+  size      String
+  quantity  Int
+  handle    Boolean
+  createdAt DateTime @default(now())
+
+  @@map("customs")
+}
