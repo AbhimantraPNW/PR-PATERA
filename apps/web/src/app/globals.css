@@ -465,3 +465,41 @@ input:checked ~ label:before {
   display: flex;
   align-items: center;
 }
+
+/* Carousel Button Product */
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  z-index: 10; /* Ensure the buttons are above the carousel content */
+}
+
+@media (max-width: 768px) {
+  .carousel-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .carousel-button.prev {
+    left: 0px;
+  }
+
+  .carousel-button.next {
+    right: 0px;
+  }
+}
+
+/* Products at Product Id */
+.responsive-card-productId {
+  width: 150px;
+}
+
+@media (max-width: 480px) {
+  .responsive-card-productId {
+    width: 100px;
+  }
+}
