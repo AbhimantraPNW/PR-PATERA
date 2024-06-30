@@ -10,10 +10,12 @@ import {
 } from '@/components/ui/carousel';
 import Image from 'next/image';
 import { SAMPLE_PRODUCT } from '../../../constant';
+import Navbar from '@/components/Navbar';
 
 const page = () => {
   return (
     <section className="padding-container max-container mt-24">
+      <Navbar />
       <div className="mt-30 flex justify-center text-xl font-semibold">
         CUPS
       </div>

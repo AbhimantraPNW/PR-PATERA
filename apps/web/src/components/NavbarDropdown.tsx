@@ -17,7 +17,7 @@ const NavbarDropdown = () => {
   return (
     <div className="dropdown-container md:hidden">
       <input type="checkbox" id="checkbox" />
-      <label htmlFor="checkbox"></label>
+      <label htmlFor="checkbox" className='toggleLabel'></label>
       <div className="menu-content">
         {NAV_LINKS.map((nav) => (
           <ul key={nav.key}>
