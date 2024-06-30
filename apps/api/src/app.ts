@@ -1,18 +1,19 @@
+import cors from 'cors';
 import express, {
-  json,
-  urlencoded,
   Express,
+  NextFunction,
   Request,
   Response,
-  NextFunction,
+  json,
+  urlencoded,
 } from 'express';
-import cors from 'cors';
 import { PORT } from './config';
-import { SampleRouter } from './routers/sample.router';
 import { ProductRouter } from './routers/product.router';
+import { AdminRouter } from './routers/admin.router';
+import { SampleRouter } from './routers/sample.router';
 
 export default class App {
-  private app: Express;
+  readonly app: Express;
 
   constructor() {
     this.app = express();
@@ -41,7 +42,6 @@ export default class App {
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
           res.status(500).send(err.message);
         } else {
           next();
@@ -52,6 +52,7 @@ export default class App {
 
   private routes(): void {
     const sampleRouter = new SampleRouter();
+    const adminRouter = new AdminRouter();
     const productRouter = new ProductRouter();
 
     this.app.get('/api', (req: Request, res: Response) => {
@@ -59,6 +60,7 @@ export default class App {
     });
 
     this.app.use('/api/samples', sampleRouter.getRouter());
+    this.app.use('/api/admin', adminRouter.getRouter());
     this.app.use('/api/products', productRouter.getRouter());
   }
 

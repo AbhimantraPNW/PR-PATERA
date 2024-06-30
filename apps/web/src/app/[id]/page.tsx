@@ -19,6 +19,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import Navbar from '@/components/Navbar';
 
 const Page = () => {
   const [count, setCount] = useState<number>(1);
@@ -28,6 +29,7 @@ const Page = () => {
 
   return (
     <section className="padding-container max-container">
+      <Navbar />
       <div className="mb-10 mt-36 flex flex-col justify-center px-12 md:flex-row md:justify-between">
         <div>
           {/* Product Card */}

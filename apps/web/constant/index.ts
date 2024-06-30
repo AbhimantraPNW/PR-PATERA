@@ -83,11 +83,12 @@ export const FOOTER_ABOUT = [
     description:
       'Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem',
     social: '/instagram.svg',
+    admin: 'Admin Page' 
   },
 ];
 
 export const DEVELOPER_TEAM = [
-  { title: 'Developer Team', email: 'developer@gmail.com' },
+  { title: 'Developer Team', email: 'developer@gmail.com'},
 ];
 
 export const PATERA_STORE = [
