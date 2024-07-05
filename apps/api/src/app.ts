@@ -12,6 +12,7 @@ import { ProductRouter } from './routers/product.router';
 import { AdminRouter } from './routers/admin.router';
 import { SampleRouter } from './routers/sample.router';
 
+
 export default class App {
   readonly app: Express;
 

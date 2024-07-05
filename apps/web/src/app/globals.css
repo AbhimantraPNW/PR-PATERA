@@ -85,6 +85,9 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 /* -- */
 /* Hover Hero */
@@ -360,7 +363,6 @@ input#checkbox {
 
 	top: 15px;
 }
-
 .toggleLabel:before {
 	margin-left: 9px;
 	position: absolute;
