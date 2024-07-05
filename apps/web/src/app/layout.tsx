@@ -3,14 +3,18 @@ import Navbar from '@/components/Navbar';
 import type { Metadata } from 'next';
 import { Poly, Work_Sans } from 'next/font/google';
 import './globals.css';
-
-// const inter = Inter({ subsets: ['latin'] });
+import StoreProvider from '@/providers/StoreProvider';
+import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/providers/AuthProvider';
+import Providers from '@/components/progress-bar/provider';
 
 export const poly = Poly({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-poly',
 });
+
+// const inter = Inter({ subsets: ['latin'] });
 
 // export const work_sans = Work_Sans({
 //   subsets: ["latin"],
@@ -30,9 +34,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poly.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <StoreProvider>
+          <AuthProvider>
+            <Providers>
+              {/* <Navbar /> */}
+              {children}
+              <Toaster />
+              {/* <Footer /> */}
+            </Providers>
+          </AuthProvider>
+        </StoreProvider>
       </body>
     </html>
   );

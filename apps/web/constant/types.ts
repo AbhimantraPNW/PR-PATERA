@@ -20,6 +20,7 @@ export interface FooterAboutProps {
     title: string;
     description: string;
     social: string;
+    admin: string;
 }
 
 export interface DeveloperTeamProps {
