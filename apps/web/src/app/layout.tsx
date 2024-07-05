@@ -7,10 +7,10 @@ import './globals.css';
 // const inter = Inter({ subsets: ['latin'] });
 
 export const poly = Poly({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-poly",
-})
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-poly',
+});
 
 // export const work_sans = Work_Sans({
 //   subsets: ["latin"],
