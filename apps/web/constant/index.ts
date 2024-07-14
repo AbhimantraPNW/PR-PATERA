@@ -1,8 +1,16 @@
 //NAVIGATION
 export const NAV_LINKS = [
   { href: '/', key: 'home', label: 'Home' },
-  { href: '/products', key: 'product', label: 'Product' },
-  { href: '/', key: 'custom', label: 'Custom' },
+  {
+    href: '/products',
+    key: 'product',
+    label: 'Product',
+    subNav: [
+      { subHref: '/products', subKey: 'ready-stock-product', subLabel: 'Stock Product' },
+      { subHref: '/seasoning', subKey: 'seasoning-product', subLabel: 'Seasoning Product' },
+    ],
+  },
+  { href: '/custom-product', key: 'custom', label: 'Custom' },
   {
     href: '/',
     key: 'about-us',
@@ -83,6 +91,7 @@ export const FOOTER_ABOUT = [
     description:
       'Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem',
     social: '/instagram.svg',
+    admin: 'Admin Page',
   },
 ];
 
