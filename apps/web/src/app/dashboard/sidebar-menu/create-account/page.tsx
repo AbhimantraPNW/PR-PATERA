@@ -1,6 +1,6 @@
 'use client';
 
-import useRegister from '@/hooks/api/admin/useRegister';
+import useRegister from '@/hooks/api/admin/auth/useRegister';
 import {
   Button,
   HelperText,

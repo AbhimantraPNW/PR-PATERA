@@ -1,7 +1,7 @@
 import App from '@/app';
 import { comparePassword } from '@/lib/bcrypt';
 import request from 'supertest';
-import { prismaMock } from '../prisma';
+import { prismaMock } from '@/testing/prisma';
 
 const requestBody = {
   email: 'user@mail.com',

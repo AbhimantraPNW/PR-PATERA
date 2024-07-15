@@ -2,10 +2,10 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
+import Link from 'next/link';
+import { BowlTable } from './component/BowlTable';
 import { MugTable } from './component/MugTable';
 import { PlateTable } from './component/PlateTable';
-import { BowlTable } from './component/BowlTable';
-import Link from 'next/link';
 
 const CustomProduct = () => {
   return (

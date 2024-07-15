@@ -3,7 +3,7 @@ import { Card, CardBody } from '@roketid/windmill-react-ui'
 
 interface IInfoCard{
   title: string
-  value: string
+  value: number | undefined | string
   children?: ReactSVGElement
 }
 

@@ -1,7 +1,7 @@
 import App from '@/app';
 import { hashPassword } from '@/lib/bcrypt';
 import request from 'supertest';
-import { prismaMock } from '../prisma';
+import { prismaMock } from '@/testing/prisma';
 import { verifyToken } from '@/lib/jwt';
 
 const requestBody = {

@@ -1,32 +1,36 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import PageTitle from '../../example/components/Typography/PageTitle';
-import SectionTitle from '../../example/components/Typography/SectionTitle';
-import CTA from '../../example/components/CTA';
+import { EditIcon, TrashIcon } from '@/app/dashboard/icons';
+import useDeleteProduct from '@/hooks/api/admin/product/useDeleteProduct';
+import useGetProducts from '@/hooks/api/admin/product/useGetProducts';
+import { useAppSelector } from '@/redux/hooks';
+import { Product } from '@/types/product.types';
+import { appConfig } from '@/utils/config';
 import {
-  Table,
-  TableHeader,
-  TableCell,
-  TableBody,
-  TableRow,
-  TableFooter,
-  TableContainer,
-  Badge,
   Avatar,
   Button,
-  Pagination,
   Label,
+  Pagination,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@roketid/windmill-react-ui';
-import { EditIcon, TrashIcon } from '@/app/dashboard/icons';
-
-import response, { ITableData } from '../../utils/demo/tableData';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import CTA from '../../example/components/CTA';
+import PageTitle from '../../example/components/Typography/PageTitle';
+import SectionTitle from '../../example/components/Typography/SectionTitle';
 import Layout from '../../example/containers/Layout';
-// make a copy of the data, for the second table
-const response2 = response.concat([]);
+import useGetProduct from '@/hooks/api/admin/product/useGetProduct';
+import { productType } from '../../utils/demo/formProductData';
+import ModalConfirmationDeleteProduct from './components/ModalConfirmationDeleteProduct';
 
-function Tables() {
+function Tables({ params }: { params: { id: string } }) {
   /**
    * DISCLAIMER: This code could be badly improved, but for the sake of the example
    * and readability, all the logic for both table are here.
@@ -35,57 +39,109 @@ function Tables() {
    * presentation details away from the page view.
    */
 
+  // const { id } = useAppSelector((state) => state.user);
+  const { deleteProduct } = useDeleteProduct();
+
+  //utils
+  const router = useRouter();
+
   // setup pages control for every table
-  const [pageTable1, setPageTable1] = useState(1);
-  const [pageTable2, setPageTable2] = useState(1);
+  const [stockPage, setStockPage] = useState<number>(1);
+  const [seasonalPage, setSeasonalPage] = useState<number>(1);
+  const [stockFilterType, setStockFilterType] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false);
+
+  // state to store selected sizes
+  const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>(
+    {},
+  );
 
   // setup data for every table
-  const [dataTable1, setDataTable1] = useState<ITableData[]>([]);
-  const [dataTable2, setDataTable2] = useState<ITableData[]>([]);
+  const { stockData, stockMeta } = useGetProducts({
+    page: stockPage,
+    take: 10,
+  });
+  const { seasonalData, seasonalMeta } = useGetProducts({
+    page: seasonalPage,
+    take: 10,
+  });
 
-  // pagination setup
-  const resultsPerPage = 10;
-  const totalResults = response.length;
+  //filter by type
+  const filteredStockData = stockFilterType
+    ? stockData.filter((product) => product.type === stockFilterType)
+    : stockData;
+
+  //group by type and name
+  const groupByTypeAndName = (data: Product[]) => {
+    const groupedProducts: { [key: string]: Product } = {};
+    data.forEach((product) => {
+      const key = `${product.type}-${product.name}`;
+      if (!groupedProducts[key]) {
+        groupedProducts[key] = product;
+      }
+    });
+    return Object.values(groupedProducts);
+  };
+
+  // get selected size product
+  const getProductBySize = (
+    type: string,
+    name: string,
+    size: string,
+    data: Product[],
+  ) => {
+    return data.find(
+      (product) =>
+        product.type === type && product.name === name && product.size === size,
+    );
+  };
+
+  //handle delete
+  const onDeleteProduct = (id: number) => {
+    deleteProduct(id);
+  };
+
+  // handler for size selection
+  const handleSizeChange = (type: string, name: string, size: string) => {
+    setSelectedSizes((prev) => ({ ...prev, [`${type}-${name}`]: size }));
+  };
 
   // pagination change control
-  function onPageChangeTable1(p: number) {
-    setPageTable1(p);
+  function onStockPageChange(p: number) {
+    setStockPage(p);
   }
 
-  // pagination change control
-  function onPageChangeTable2(p: number) {
-    setPageTable2(p);
+  function onSeasonalPageChange(p: number) {
+    setSeasonalPage(p);
   }
 
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setDataTable1(
-      response.slice(
-        (pageTable1 - 1) * resultsPerPage,
-        pageTable1 * resultsPerPage,
-      ),
-    );
-  }, [pageTable1]);
-
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setDataTable2(
-      response2.slice(
-        (pageTable2 - 1) * resultsPerPage,
-        pageTable2 * resultsPerPage,
-      ),
-    );
-  }, [pageTable2]);
+  const displayedStockData = groupByTypeAndName(filteredStockData);
+  const displayedSeasonalData = groupByTypeAndName(seasonalData);
 
   return (
     <Layout>
-      <PageTitle>Tables</PageTitle>
+      <PageTitle>Tables Action</PageTitle>
 
       <CTA />
 
-      <SectionTitle>All Products</SectionTitle>
+      {/* Filter Controls */}
+      <Label>
+        <span>Filter Stock Products</span>
+        <Select
+          className="mt-1"
+          value={stockFilterType}
+          onChange={(e) => setStockFilterType(e.target.value)}
+        >
+          <option value="">All</option>
+          {/* Replace with actual types */}
+          {productType.map((product, i) => (
+            <option key={i} value={product.type}>{product.type}</option>
+          ))}
+        </Select>
+      </Label>
+
+      {/* Stock Products */}
+      <SectionTitle>Stock Products</SectionTitle>
       <TableContainer className="mb-8">
         <Table>
           <TableHeader>
@@ -93,60 +149,127 @@ function Tables() {
               <TableCell>Product</TableCell>
               <TableCell>Stock</TableCell>
               <TableCell>Size</TableCell>
-              <TableCell>Created Date</TableCell>
+              <TableCell className="hidden md:flex">Created Date</TableCell>
+              <TableCell>Actions</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {dataTable1.map((product, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar
-                      className="mr-3 hidden md:block"
-                      src={product.avatar}
-                      alt="User avatar"
-                    />
-                    <div>
-                      <p className="font-semibold">{product.type}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {product.name}
-                      </p>
+            {displayedStockData.map((product, i) => {
+              const selectedSizeProduct = getProductBySize(
+                product.type,
+                product.name,
+                selectedSizes[`${product.type}-${product.name}`] ||
+                  product.size,
+                stockData,
+              );
+              return (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div className="flex items-center text-sm">
+                      <Avatar
+                        className="mr-3"
+                        src={
+                          appConfig.baseUrl +
+                          `/assets${selectedSizeProduct!.images?.[0]?.url}`
+                        }
+                        alt="product image"
+                      />
+                      <div id={selectedSizeProduct!.id}>
+                        <p className="font-semibold">
+                          {selectedSizeProduct!.type}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {selectedSizeProduct!.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{product.stock}</span>
-                </TableCell>
-                <TableCell>
-                  <Label>
-                    <Select
-                      className="rounded-none border border-black"
-                      style={{ maxWidth: '150px' }}
-                    >
-                      <option>{product.size}</option>
-                    </Select>
-                  </Label>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">
-                    {new Date(product.date).toLocaleDateString()}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {selectedSizeProduct!.stock}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Label>
+                      <Select
+                        className="rounded-none border border-black"
+                        style={{ maxWidth: '150px' }}
+                        value={
+                          selectedSizes[
+                            `${selectedSizeProduct!.type}-${
+                              selectedSizeProduct!.name
+                            }`
+                          ] || ''
+                        }
+                        onChange={(e) =>
+                          handleSizeChange(
+                            product.type,
+                            product.name,
+                            e.target.value,
+                          )
+                        }
+                      >
+                        {stockData
+                          .filter(
+                            (p) =>
+                              p.type === product.type &&
+                              p.name === product.name,
+                          )
+                          .map((p) => (
+                            <option key={p.size} value={p.size}>
+                              {p.size}
+                            </option>
+                          ))}
+                      </Select>
+                    </Label>
+                  </TableCell>
+                  <TableCell className="mr-4 whitespace-nowrap">
+                    <span className="text-sm">
+                      {new Date(
+                        selectedSizeProduct!.createdAt,
+                      ).toLocaleDateString()}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-0 md:space-x-4">
+                      <Button
+                        layout="link"
+                        size="small"
+                        aria-label="Edit"
+                        onClick={() =>
+                          router.push(
+                            `/dashboard/sidebar-menu/forms/edit/${selectedSizeProduct?.id}`,
+                          )
+                        }
+                      >
+                        <EditIcon className="h-5 w-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="small" aria-label="Delete">
+                        <ModalConfirmationDeleteProduct
+                          setOpen={setOpen}
+                          onDeleteProduct={() =>
+                            onDeleteProduct(selectedSizeProduct!.id)
+                          }
+                        />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         <TableFooter>
           <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            onChange={onPageChangeTable1}
+            totalResults={stockMeta?.total}
+            resultsPerPage={stockMeta?.take}
+            onChange={onStockPageChange}
             label="Table navigation"
           />
         </TableFooter>
       </TableContainer>
 
-      <SectionTitle>Product table with actions</SectionTitle>
+      <SectionTitle>Seasoning Products</SectionTitle>
       <TableContainer className="mb-8">
         <Table>
           <TableHeader>
@@ -154,64 +277,119 @@ function Tables() {
               <TableCell>Product</TableCell>
               <TableCell>Stock</TableCell>
               <TableCell>Size</TableCell>
-              <TableCell className='hidden md:flex'>Created Date</TableCell>
+              <TableCell className="hidden md:flex">Created Date</TableCell>
               <TableCell>Actions</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {dataTable2.map((product, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar
-                      className="mr-3 hidden md:block"
-                      src={product.avatar}
-                      alt="User avatar"
-                    />
-                    <div>
-                      <p className="font-semibold">{product.type}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {product.name}
-                      </p>
+            {displayedSeasonalData.map((product, i) => {
+              const selectedSizeProduct = getProductBySize(
+                product.type,
+                product.name,
+                selectedSizes[`${product.type}-${product.name}`] ||
+                  product.size,
+                seasonalData,
+              );
+              return (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div className="flex items-center text-sm">
+                      <Avatar
+                        className="mr-3"
+                        src={
+                          appConfig.baseUrl +
+                          `/assets${selectedSizeProduct?.images?.[0]?.url}`
+                        }
+                        alt="product image"
+                      />
+                      <div id={selectedSizeProduct?.id}>
+                        <p className="font-semibold">
+                          {selectedSizeProduct?.type}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {selectedSizeProduct?.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{product.stock}</span>
-                </TableCell>
-                <TableCell>
-                  <Label>
-                    <Select
-                      className="rounded-none border border-black w-12 md:w-36"
-                    >
-                      <option>{product.size}</option>
-                    </Select>
-                  </Label>
-                </TableCell>
-                <TableCell className='hidden md:flex'>
-                  <span className="text-sm mt-2 hidden md:flex">
-                    {new Date(product.date).toLocaleDateString()}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center md:space-x-4 space-x-0">
-                    <Button layout="link" size="small" aria-label="Edit">
-                      <EditIcon className="h-5 w-5" aria-hidden="true" />
-                    </Button>
-                    <Button layout="link" size="small" aria-label="Delete">
-                      <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {selectedSizeProduct?.stock}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Label>
+                      <Select
+                        className="rounded-none border border-black"
+                        style={{ maxWidth: '150px' }}
+                        value={
+                          selectedSizes[
+                            `${selectedSizeProduct?.type}-${selectedSizeProduct?.name}`
+                          ] || ''
+                        }
+                        onChange={(e) =>
+                          handleSizeChange(
+                            product.type,
+                            product.name,
+                            e.target.value,
+                          )
+                        }
+                      >
+                        {seasonalData
+                          .filter(
+                            (p) =>
+                              p.type === product.type &&
+                              p.name === product.name,
+                          )
+                          .map((p) => (
+                            <option key={p.size} value={p.size}>
+                              {p.size}
+                            </option>
+                          ))}
+                      </Select>
+                    </Label>
+                  </TableCell>
+                  <TableCell className="mr-4 whitespace-nowrap">
+                    <span className="text-sm">
+                      {new Date(
+                        selectedSizeProduct!.createdAt,
+                      ).toLocaleDateString()}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-0 md:space-x-4">
+                      <Button
+                        layout="link"
+                        size="small"
+                        aria-label="Edit"
+                        onClick={() =>
+                          router.push(
+                            `/dashboard/sidebar-menu/forms/edit/${selectedSizeProduct?.id}`,
+                          )
+                        }
+                      >
+                        <EditIcon className="h-5 w-5" aria-hidden="true" />
+                      </Button>
+                      <Button layout="link" size="small" aria-label="Delete">
+                        <ModalConfirmationDeleteProduct
+                          setOpen={setOpen}
+                          onDeleteProduct={() =>
+                            onDeleteProduct(selectedSizeProduct!.id)
+                          }
+                        />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         <TableFooter>
           <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            onChange={onPageChangeTable2}
+            totalResults={seasonalMeta?.total}
+            resultsPerPage={seasonalMeta?.take}
+            onChange={onSeasonalPageChange}
             label="Table navigation"
           />
         </TableFooter>

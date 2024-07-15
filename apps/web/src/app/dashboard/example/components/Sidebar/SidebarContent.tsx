@@ -65,12 +65,12 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
       </ul>
       <div className="my-6 px-6">
         <Link href="/dashboard/sidebar-menu/forms">
-        <Button>
-          Create product
-          <span className="ml-2" aria-hidden="true">
-            +
-          </span>
-        </Button>
+          <Button>
+            Create product
+            <span className="ml-2" aria-hidden="true">
+              +
+            </span>
+          </Button>
         </Link>
       </div>
     </div>
