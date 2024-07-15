@@ -21,14 +21,47 @@ model Sample {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   fullName  String
   email     String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
 
   @@map("users")
+}
+
+model Product {
+  id        Int       @id @default(autoincrement())
+  type      String
+  name      String
+  status    String
+  stock     Int
+  size      String
+  price     Int
+  diameter  Int
+  tinggi    Int
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  images     Image[] @relation("ProductImages")
+
+  @@map("products")
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  product   Product @relation(fields: [productId], references: [id], name: "ProductImages")
+  productId Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("images")
 }
 
 model Custom {

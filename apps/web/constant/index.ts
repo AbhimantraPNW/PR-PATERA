@@ -1,7 +1,15 @@
 //NAVIGATION
 export const NAV_LINKS = [
   { href: '/', key: 'home', label: 'Home' },
-  { href: '/products', key: 'product', label: 'Product' },
+  {
+    href: '/products',
+    key: 'product',
+    label: 'Product',
+    subNav: [
+      { subHref: '/products', subKey: 'ready-stock-product', subLabel: 'Stock Product' },
+      { subHref: '/seasoning', subKey: 'seasoning-product', subLabel: 'Seasoning Product' },
+    ],
+  },
   { href: '/custom-product', key: 'custom', label: 'Custom' },
   {
     href: '/',

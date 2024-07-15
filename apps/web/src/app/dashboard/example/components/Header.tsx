@@ -1,27 +1,22 @@
-import AuthGuard from '@/hoc/AuthGuard';
-import { useContext, useState } from 'react';
 import SidebarContext from '@/app/dashboard/context/SidebarContext';
 import {
-  SearchIcon,
-  MoonIcon,
-  SunIcon,
-  BellIcon,
+  HomeIcon,
   MenuIcon,
-  OutlinePersonIcon,
-  OutlineCogIcon,
   OutlineLogoutIcon,
+  OutlinePersonIcon,
 } from '@/app/dashboard/icons';
+import AutoComplete from '@/components/AutoComplete';
+import AuthGuard from '@/hoc/AuthGuard';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logoutAction } from '@/redux/slices/userSlice';
 import {
   Avatar,
-  Badge,
-  Input,
   Dropdown,
   DropdownItem,
   WindmillContext,
 } from '@roketid/windmill-react-ui';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { logoutAction } from '@/redux/slices/userSlice';
 import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 
 function Header() {
   const { mode, toggleMode } = useContext(WindmillContext);
@@ -29,13 +24,9 @@ function Header() {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const imgSrc = `https://ui-avatars.com/api/?name=${user.fullName}&background=0D8ABC&color=fff`;
 
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen);
-  }
 
   function handleProfileClick() {
     setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -61,68 +52,21 @@ function Header() {
         {/* <!-- Search input --> */}
         <div className="flex flex-1 justify-center lg:mr-32">
           <div className="relative mr-6 w-full max-w-xl focus-within:text-purple-500">
-            <div className="absolute inset-y-0 flex items-center pl-2">
+            {/* <div className="absolute inset-y-0 flex items-center pl-2">
               <SearchIcon className="h-4 w-4" aria-hidden="true" />
-            </div>
-            <Input
+            </div> */}
+            <AutoComplete />
+            {/* <Input
               className="pl-8 text-gray-700"
-              placeholder="Search for projects"
+              placeholder="Search for products"
               aria-label="Search"
               crossOrigin="anonymous"
-            />
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              />  */}
           </div>
         </div>
         <ul className="flex flex-shrink-0 items-center space-x-6">
-          {/* <!-- Theme toggler --> */}
-          {/* <li className="flex">
-            <button
-              className="rounded-md focus:outline-none focus:shadow-outline-purple"
-              onClick={toggleMode}
-              aria-label="Toggle color mode"
-            >
-              {mode === 'dark' ? (
-                <SunIcon className="w-5 h-5" aria-hidden="true" />
-              ) : (
-                <MoonIcon className="w-5 h-5" aria-hidden="true" />
-              )}
-            </button>
-          </li> */}
-
-          {/* <!-- Notifications menu --> */}
-          {/* <li className="relative">
-            <button
-              className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-              onClick={handleNotificationsClick}
-              aria-label="Notifications"
-              aria-haspopup="true"
-            >
-              <BellIcon className="w-5 h-5" aria-hidden="true" /> */}
-          {/* <!-- Notification badge --> */}
-          {/* <span
-                aria-hidden="true"
-                className="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
-              ></span>
-            </button>
-
-            <Dropdown
-              align="right"
-              isOpen={isNotificationsMenuOpen}
-              onClose={() => setIsNotificationsMenuOpen(false)}
-            >
-              <DropdownItem tag="a" href="#" className="justify-between">
-                <span>Messages</span>
-                <Badge type="danger">13</Badge>
-              </DropdownItem>
-              <DropdownItem tag="a" href="#" className="justify-between">
-                <span>Sales</span>
-                <Badge type="danger">2</Badge>
-              </DropdownItem>
-              <DropdownItem onClick={() => alert('Alerts!')}>
-                <span>Alerts</span>
-              </DropdownItem>
-            </Dropdown>
-          </li> */}
-
           {/* <!-- Profile menu --> */}
           <li className="relative">
             <button
@@ -133,7 +77,7 @@ function Header() {
             >
               <Avatar
                 className="h-14 w-14 align-middle"
-                src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+                src={imgSrc}
                 alt=""
                 aria-hidden="true"
               />
@@ -143,6 +87,10 @@ function Header() {
               isOpen={isProfileMenuOpen}
               onClose={() => setIsProfileMenuOpen(false)}
             >
+              <DropdownItem onClick={() => router.push('/')}>
+                <HomeIcon className="mr-3 h-4 w-4" aria-hidden="true" />
+                <span>Home</span>
+              </DropdownItem>
               <DropdownItem>
                 <OutlinePersonIcon
                   className="mr-3 h-4 w-4"
@@ -150,10 +98,6 @@ function Header() {
                 />
                 <span>{user.fullName}</span>
               </DropdownItem>
-              {/* <DropdownItem tag="a" href="#">
-                <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
-                <span>Settings</span>
-              </DropdownItem> */}
               <DropdownItem onClick={handleLogout}>
                 <OutlineLogoutIcon
                   className="mr-3 h-4 w-4"

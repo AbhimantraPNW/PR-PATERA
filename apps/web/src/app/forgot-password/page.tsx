@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import useForgotPassword from '@/hooks/api/admin/useForgotPassword';
+import useForgotPassword from '@/hooks/api/admin/auth/useForgotPassword';
 import { useFormik } from 'formik';
 import { Loader2 } from 'lucide-react';
 import { validationSchema } from './validationSchema';

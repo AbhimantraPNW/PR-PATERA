@@ -1,85 +1,97 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Doughnut, Line } from 'react-chartjs-2';
+import { MoneyIcon, PeopleIcon } from '@/app/dashboard/icons';
+import useGetProducts from '@/hooks/api/admin/product/useGetProducts';
+import { Product } from '@/types/product.types';
+import { useState } from 'react';
 import CTA from './example/components/CTA';
 import InfoCard from './example/components/Cards/InfoCard';
-import ChartCard from './example/components/Chart/ChartCard';
-import ChartLegend from './example/components/Chart/ChartLegend';
+import RoundIcon from './example/components/RoundIcon';
 import PageTitle from './example/components/Typography/PageTitle';
 import Layout from './example/containers/Layout';
-import RoundIcon from './example/components/RoundIcon';
-import response, { ITableData } from '@/app/dashboard/utils/demo/tableData';
-import {
-  ChatIcon,
-  CartIcon,
-  MoneyIcon,
-  PeopleIcon,
-} from '@/app/dashboard/icons';
+import { appConfig } from '@/utils/config';
 
 import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
   Avatar,
-  Badge,
-  Pagination,
   Label,
+  Pagination,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableFooter,
+  TableHeader,
+  TableRow,
 } from '@roketid/windmill-react-ui';
-
-import {
-  doughnutOptions,
-  lineOptions,
-  doughnutLegends,
-  lineLegends,
-} from '@/app/dashboard/utils/demo/chartsData';
-
-import {
-  Chart,
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { productType } from './utils/demo/formProductData';
 
 function Dashboard() {
-  Chart.register(
-    ArcElement,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
+  const [stockPage, setStockPage] = useState<number>(1);
+  const [seasonalPage, setSeasonalPage] = useState<number>(1);
+  const [stockFilterType, setStockFilterType] = useState<string>('');
+  const { stockData, stockMeta } = useGetProducts({
+    page: stockPage,
+    take: 10,
+  });
+  const { seasonalData, seasonalMeta } = useGetProducts({
+    page: seasonalPage,
+    take: 10,
+  });
+
+  //filter by type
+  const filteredStockData = stockFilterType
+    ? stockData.filter((product) => product.type === stockFilterType)
+    : stockData;
+
+  // state to store selected sizes
+  const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>(
+    {},
   );
 
-  const [page, setPage] = useState(1);
-  const [data, setData] = useState<ITableData[]>([]);
+  // handler for size selection
+  const handleSizeChange = (type: string, name: string, size: string) => {
+    setSelectedSizes((prev) => ({ ...prev, [`${type}-${name}`]: size }));
+  };
 
-  // pagination setup
-  const resultsPerPage = 10;
-  const totalResults = response.length;
+  //group by type and name
+  const groupByTypeAndName = (data: Product[]) => {
+    const groupedProducts: { [key: string]: Product } = {};
+    data.forEach((product) => {
+      const key = `${product.type}-${product.name}`;
+      if (!groupedProducts[key]) {
+        groupedProducts[key] = product;
+      }
+    });
+    return Object.values(groupedProducts);
+  };
+
+  // get selected size product
+  const getProductBySize = (
+    type: string,
+    name: string,
+    size: string,
+    data: Product[],
+  ) => {
+    return data.find(
+      (product) =>
+        product.type === type && product.name === name && product.size === size,
+    );
+  };
 
   // pagination change control
-  function onPageChange(p: number) {
-    setPage(p);
+  function onStockPageChange(p: number) {
+    setStockPage(p);
   }
 
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage));
-  }, [page]);
+  function onSeasonalPageChange(p: number) {
+    setSeasonalPage(p);
+  }
+
+  const displayedStockData = groupByTypeAndName(filteredStockData);
+  const displayedSeasonalData = groupByTypeAndName(seasonalData);
+
+  console.log(stockData)
 
   return (
     <Layout>
@@ -87,9 +99,9 @@ function Dashboard() {
 
       <CTA />
 
-      {/* <!-- Cards --> */}
+      {/* Cards */}
       <div className="mb-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Total Products" value="79">
+        <InfoCard title="Stock Products" value={stockMeta?.total}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={PeopleIcon}
@@ -99,7 +111,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Seasoning Products" value="10">
+        <InfoCard title="Seasoning Products" value={seasonalMeta?.total}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={MoneyIcon}
@@ -108,87 +120,225 @@ function Dashboard() {
             className="mr-4"
           />
         </InfoCard>
-
-        <InfoCard title="Discount Products" value="15">
-          {/* @ts-ignore */}
-          <RoundIcon
-            icon={CartIcon}
-            iconColorClass="text-blue-500 dark:text-blue-100"
-            bgColorClass="bg-blue-100 dark:bg-blue-500"
-            className="mr-4"
-          />
-        </InfoCard>
       </div>
+
+      {/* Filter Controls */}
+      <Label>
+        <span>Filter Stock Products</span>
+        <Select
+          className="mt-1"
+          value={stockFilterType}
+          onChange={(e) => setStockFilterType(e.target.value)}
+        >
+          <option value="">All</option>
+          {/* Replace with actual types */}
+          {productType.map((product, i) => (
+            <option key={i} value={product.type}>{product.type}</option>
+          ))}
+        </Select>
+      </Label>
 
       <TableContainer>
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>Products</TableCell>
+              <TableCell>Stock Products</TableCell>
               <TableCell>Stock</TableCell>
               <TableCell>Size</TableCell>
               <TableCell>Created Date</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
-            {data.map((product, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar
-                      className="mr-3 hidden md:block"
-                      src={product.avatar}
-                      alt="User image"
-                    />
-                    <div>
-                      <p className="font-semibold">{product.type}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {product.name}
-                      </p>
+            {displayedStockData.map((product, i) => {
+              const selectedSizeProduct = getProductBySize(
+                product.type,
+                product.name,
+                selectedSizes[`${product.type}-${product.name}`] ||
+                  product.size,
+                stockData,
+              );
+              return (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div className="flex items-center text-sm">
+                      <Avatar
+                        className="mr-3"
+                        src={
+                          appConfig.baseUrl +
+                          `/assets${selectedSizeProduct?.images?.[0]?.url}`
+                        }
+                        alt="product image"
+                      />
+                      <div id={selectedSizeProduct?.id}>
+                        <p className="font-semibold">
+                          {selectedSizeProduct?.type}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {selectedSizeProduct?.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{product.stock}</span>
-                </TableCell>
-                <TableCell>
-                  <Label >
-                    <Select className='border border-black rounded-none' style={{maxWidth: '150px'}}>
-                      <option>{product.size}</option>
-                    </Select>
-                  </Label>
-                </TableCell>
-                <TableCell className='mr-4 whitespace-nowrap'>
-                  <span className="text-sm">
-                    {new Date(product.date).toLocaleDateString()}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {selectedSizeProduct?.stock}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Label>
+                      <Select
+                        className="rounded-none border border-black"
+                        style={{ maxWidth: '150px' }}
+                        value={
+                          selectedSizes[
+                            `${selectedSizeProduct?.type}-${selectedSizeProduct?.name}`
+                          ] || ''
+                        }
+                        onChange={(e) =>
+                          handleSizeChange(
+                            product.type,
+                            product.name,
+                            e.target.value,
+                          )
+                        }
+                      >
+                        {stockData
+                          .filter(
+                            (p) =>
+                              p.type === product.type &&
+                              p.name === product.name,
+                          )
+                          .map((p) => (
+                            <option key={p.size} value={p.size}>
+                              {p.size}
+                            </option>
+                          ))}
+                      </Select>
+                    </Label>
+                  </TableCell>
+                  <TableCell className="mr-4 whitespace-nowrap">
+                    <span className="text-sm">
+                      {new Date(
+                        selectedSizeProduct!.createdAt,
+                      ).toLocaleDateString()}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         <TableFooter>
           <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            label="Table navigation"
-            onChange={onPageChange}
+            totalResults={stockMeta?.total}
+            resultsPerPage={stockMeta?.take}
+            label="Table products"
+            onChange={onStockPageChange}
           />
         </TableFooter>
       </TableContainer>
 
-      <PageTitle>Charts</PageTitle>
-      <div className="mb-8 grid gap-6 md:grid-cols-2">
-        <ChartCard title="Revenue">
-          <Doughnut {...doughnutOptions} />
-          <ChartLegend legends={doughnutLegends} />
-        </ChartCard>
-
-        <ChartCard title="Traffic">
-          <Line {...lineOptions} />
-          <ChartLegend legends={lineLegends} />
-        </ChartCard>
-      </div>
+      <TableContainer>
+        <Table>
+          <TableHeader>
+            <tr>
+              <TableCell>Seasoning Products</TableCell>
+              <TableCell>Stock</TableCell>
+              <TableCell>Size</TableCell>
+              <TableCell>Created Date</TableCell>
+            </tr>
+          </TableHeader>
+          <TableBody>
+            {displayedSeasonalData.map((product, i) => {
+              const selectedSizeProduct = getProductBySize(
+                product.type,
+                product.name,
+                selectedSizes[`${product.type}-${product.name}`] ||
+                  product.size,
+                seasonalData,
+              );
+              return (
+                <TableRow key={i}>
+                  <TableCell>
+                    <div className="flex items-center text-sm">
+                      <Avatar
+                        className="mr-3"
+                        src={
+                          appConfig.baseUrl +
+                          `/assets${selectedSizeProduct!.images?.[0]?.url}`
+                        }
+                        alt="product image"
+                      />
+                      <div>
+                        <p className="font-semibold">
+                          {selectedSizeProduct!.type}
+                        </p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">
+                          {selectedSizeProduct!.name}
+                        </p>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {selectedSizeProduct!.stock}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Label>
+                      <Select
+                        className="rounded-none border border-black"
+                        style={{ maxWidth: '150px' }}
+                        value={
+                          selectedSizes[
+                            `${selectedSizeProduct!.type}-${
+                              selectedSizeProduct!.name
+                            }`
+                          ] || ''
+                        }
+                        onChange={(e) =>
+                          handleSizeChange(
+                            product.type,
+                            product.name,
+                            e.target.value,
+                          )
+                        }
+                      >
+                        {seasonalData
+                          .filter(
+                            (p) =>
+                              p.type === product.type &&
+                              p.name === product.name,
+                          )
+                          .map((p) => (
+                            <option key={p.size} value={p.size}>
+                              {p.size}
+                            </option>
+                          ))}
+                      </Select>
+                    </Label>
+                  </TableCell>
+                  <TableCell className="mr-4 whitespace-nowrap">
+                    <span className="text-sm">
+                      {new Date(
+                        selectedSizeProduct!.createdAt,
+                      ).toLocaleDateString()}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+        <TableFooter>
+          <Pagination
+            totalResults={seasonalMeta?.total}
+            resultsPerPage={seasonalMeta?.take}
+            label="Table seasoning products"
+            onChange={onSeasonalPageChange}
+          />
+        </TableFooter>
+      </TableContainer>
     </Layout>
   );
 }

@@ -1,5 +1,5 @@
 import App from '@/app';
-import { prismaMock } from '../prisma';
+import { prismaMock } from '@/testing/prisma';
 import request from 'supertest';
 
 const requestBody = {

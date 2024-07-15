@@ -3,7 +3,7 @@
 import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import useLogin from '@/hooks/api/admin/useLogin';
+import useLogin from '@/hooks/api/admin/auth/useLogin';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { validationSchema } from './validationSchema';

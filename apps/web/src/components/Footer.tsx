@@ -61,7 +61,7 @@ export const Footer = () => {
         </div>
 
         <p className="text-gray-30 mt-10 w-full text-center">
-          Dev 2024 &copy; | All rights reserved
+          Patera 2024 &copy; | All rights reserved
         </p>
       </footer>
     </>
