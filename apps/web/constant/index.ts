@@ -1,8 +1,16 @@
 //NAVIGATION
 export const NAV_LINKS = [
   { href: '/', key: 'home', label: 'Home' },
-  { href: '/', key: 'product', label: 'Product' },
-  { href: '/', key: 'custom', label: 'Custom' },
+  {
+    href: '/products',
+    key: 'product',
+    label: 'Product',
+    subNav: [
+      { subHref: '/products', subKey: 'ready-stock-product', subLabel: 'Stock Product' },
+      { subHref: '/seasoning', subKey: 'seasoning-product', subLabel: 'Seasoning Product' },
+    ],
+  },
+  { href: '/custom-product', key: 'custom', label: 'Custom' },
   {
     href: '/',
     key: 'about-us',
@@ -83,6 +91,7 @@ export const FOOTER_ABOUT = [
     description:
       'Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem',
     social: '/instagram.svg',
+    admin: 'Admin Page',
   },
 ];
 
@@ -97,4 +106,18 @@ export const PATERA_STORE = [
       'Gg. Ledok Tukangan Blok DN 2 No.243, RT.02/RW.01, Tegal Panggung, Kec. Danurejan, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55212',
     contact: '0821-1001-2575',
   },
+];
+
+//PRODUCTS
+export const SAMPLE_PRODUCT = [
+  { image: '/Collection/Vase_Cup.jpg', name: 'Choco Milk' },
+  { image: '/Collection/Vase_Cup.jpg', name: 'Choco Milk' },
+  { image: '/Collection/Vase_Cup.jpg', name: 'Choco Milk' },
+  { image: '/Collection/Vase_Cup.jpg', name: 'Choco Milk' },
+  { image: '/Collection/Vase_Cup.jpg', name: 'Choco Milk' },
+];
+
+//SAMPLE PRODUCT ID
+export const SAMPLE_PRODUCT_ID = [
+  { image: '/Collection/Vase_Cup.jpg', name: 'Vase Cup' },
 ];
