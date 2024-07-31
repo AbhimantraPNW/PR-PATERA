@@ -16,7 +16,7 @@ export const Footer = () => {
   return (
     <>
       <Separator />
-      <footer className="padding-container max-container mt-10">
+      <footer className="padding-container max-container my-10">
         <div className="flex flex-col justify-between md:flex-row">
           {FOOTER_ABOUT.map((about: FooterAboutProps, index) => (
             <div className="flex flex-col gap-2 md:gap-3" key={index}>
@@ -40,7 +40,7 @@ export const Footer = () => {
 
           {DEVELOPER_TEAM.map((developer: DeveloperTeamProps, index) => (
             <div
-              className="mt-8 flex flex-col gap-2 md:ml-40 md:mt-0 md:gap-3 md:text-right"
+              className="mt-8 flex flex-col mx-4 gap-2 md:mt-0 md:gap-3"
               key={index}
             >
               {developer.title}
