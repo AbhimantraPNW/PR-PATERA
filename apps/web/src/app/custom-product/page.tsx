@@ -6,10 +6,13 @@ import Link from 'next/link';
 import { BowlTable } from './component/BowlTable';
 import { MugTable } from './component/MugTable';
 import { PlateTable } from './component/PlateTable';
+import Navbar from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 const CustomProduct = () => {
   return (
     <main>
+      <Navbar/>
       {/* HEADER START */}
       <div className="relative h-[620px] w-full">
         <Image
@@ -106,8 +109,8 @@ const CustomProduct = () => {
         <h1 className="text-5xl font-bold">Pricelist</h1>
 
         {/* Mug Pricelist */}
-        <div className="my-5 flex w-full items-center justify-between">
-          <div className="relative mt-10 h-[500px] w-[500px]">
+        <div className="my-5 flex w-full items-center justify-center gap-8">
+          <div className="relative mt-10 md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
                 src="/Collection/Vase_Cup.jpg"
@@ -133,8 +136,8 @@ const CustomProduct = () => {
         </div>
 
         {/* Plate Pricelist */}
-        <div className="my-5 flex w-full flex-row-reverse items-center justify-between">
-          <div className="relative mt-10 h-[500px] w-[500px]">
+        <div className="my-5 flex w-full flex-row-reverse items-center justify-center gap-8">
+          <div className="relative mt-10 h-[400px] w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
                 src="/Collection/Plate.jpeg"
@@ -160,8 +163,8 @@ const CustomProduct = () => {
         </div>
 
         {/* Bowl Pricelist */}
-        <div className="my-5 flex w-full items-center justify-between">
-          <div className="relative mt-10 h-[500px] w-[500px]">
+        <div className="my-5 flex w-full items-center justify-center gap-8">
+          <div className="relative mt-10 h-[400px] w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
                 src="/Collection/Bowl.png"
@@ -189,8 +192,8 @@ const CustomProduct = () => {
       {/* PRICELIST END */}
 
       {/* TRIGGER TO WHATSAPP START */}
-      <div className="container my-10 flex h-[600px] flex-row-reverse items-center justify-between rounded-xl bg-slate-200 px-20">
-        <div className="relative h-[500px] w-[450px]">
+      <div className="container mt-10 flex  py-8 flex-row-reverse items-center justify-between rounded-xl  bg-slate-200 lg:px-20">
+        <div className="relative md:w-[300px] md:h-[400px] lg:h-[500px] lg:w-[450px]">
           <Card className="relative h-full w-full rounded-lg">
             <Image
               src="/patera-custom.jpeg"
@@ -202,7 +205,7 @@ const CustomProduct = () => {
           </Card>
         </div>
         <div className="flex w-1/2 flex-col gap-5">
-          <h1 className="text-5xl font-bold leading-snug text-[#152C5B]">
+          <h1 className="lg:text-4xl md:text-3xl font-bold leading-snug text-[#152C5B]">
             Now start customing your own Patera products !
           </h1>
           <p className="text-slate-500">
@@ -212,7 +215,7 @@ const CustomProduct = () => {
             href="https://wa.me/628156611688?text=Hi%20!.%20Saya%20ingin%20custom%20product"
             passHref
           >
-            <Button className="flex w-1/2 items-center justify-center gap-2">
+            <Button className="flex w-full items-center justify-center gap-2 transition-transform transform hover:scale-105 duration-300">
               <Image
                 src="/whatsapp.svg"
                 alt="WhatsApp Logo"
@@ -223,17 +226,19 @@ const CustomProduct = () => {
             </Button>
           </Link>
 
-          <p className="text-slate-500">Catalog below as your preferences</p>
+          {/* <p className="text-slate-500">Catalog below as your preferences</p> */}
           <Link
             href="/Catalogue/Patera Catalogue Ceramic.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button className="w-1/2">See catalogue pdf</Button>
+            <Button className="w-full transition-transform transform hover:scale-105 duration-300">See catalogue pdf</Button>
           </Link>
         </div>
       </div>
       {/* TRIGGER TO WHATSAPP END */}
+
+      <Footer/>
     </main>
   );
 };
