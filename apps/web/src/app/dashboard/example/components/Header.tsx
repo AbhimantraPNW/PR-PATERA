@@ -52,18 +52,7 @@ function Header() {
         {/* <!-- Search input --> */}
         <div className="flex flex-1 justify-center lg:mr-32">
           <div className="relative mr-6 w-full max-w-xl focus-within:text-purple-500">
-            {/* <div className="absolute inset-y-0 flex items-center pl-2">
-              <SearchIcon className="h-4 w-4" aria-hidden="true" />
-            </div> */}
             <AutoComplete />
-            {/* <Input
-              className="pl-8 text-gray-700"
-              placeholder="Search for products"
-              aria-label="Search"
-              crossOrigin="anonymous"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              />  */}
           </div>
         </div>
         <ul className="flex flex-shrink-0 items-center space-x-6">

@@ -6,15 +6,15 @@ import Link from 'next/link';
 import { BowlTable } from './component/BowlTable';
 import { MugTable } from './component/MugTable';
 import { PlateTable } from './component/PlateTable';
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Footer } from '@/components/Footer';
 
 const CustomProduct = () => {
   return (
     <main>
-      <Navbar/>
+      <NavbarFeatures />
       {/* HEADER START */}
-      <div className="relative h-[620px] w-full">
+      <div className="relative h-[680px] w-full">
         <Image
           src="/patera-hero.JPG"
           alt="Picture of the author"
@@ -27,12 +27,12 @@ const CustomProduct = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
 
         {/* header description */}
-        <div className="container absolute inset-0 flex flex-col items-start justify-center space-y-4 text-center">
+        <div className="container absolute inset-0 mt-16 flex flex-col items-start justify-center space-y-4 text-center md:mt-0">
           <h1 className="text-5xl font-bold text-white">Custom Product</h1>
           <p className="mt-4 w-1/2 text-left text-lg text-white">
             Create your own personalized products with our custom product
             service. Choose from a variety of designs, sizes, and quantities to
-            make your products truly unique. Whether it's for personal use or
+            make your products truly unique. Whether it&apos;s for personal use or
             for your business, we have got you covered.
           </p>
           <a href="#procedure">
@@ -109,8 +109,8 @@ const CustomProduct = () => {
         <h1 className="text-5xl font-bold">Pricelist</h1>
 
         {/* Mug Pricelist */}
-        <div className="my-5 flex w-full items-center justify-center gap-8">
-          <div className="relative mt-10 md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[400px]">
+        <div className="my-5 flex w-full flex-col items-center justify-center gap-8 md:flex-row">
+          <div className="relative mt-10 h-[400px] w-[300px] md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
                 src="/Collection/Vase_Cup.jpg"
@@ -130,13 +130,13 @@ const CustomProduct = () => {
               </div>
             </Card>
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <MugTable />
           </div>
         </div>
 
         {/* Plate Pricelist */}
-        <div className="my-5 flex w-full flex-row-reverse items-center justify-center gap-8">
+        <div className="my-5 flex w-full flex-col items-center justify-center gap-8 md:flex-row-reverse">
           <div className="relative mt-10 h-[400px] w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
@@ -157,13 +157,13 @@ const CustomProduct = () => {
               </div>
             </Card>
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <PlateTable />
           </div>
         </div>
 
         {/* Bowl Pricelist */}
-        <div className="my-5 flex w-full items-center justify-center gap-8">
+        <div className="my-5 flex w-full flex-col items-center justify-center gap-8 md:flex-row">
           <div className="relative mt-10 h-[400px] w-[300px] lg:h-[500px] lg:w-[400px]">
             <Card className="relative h-full w-full rounded-lg">
               <Image
@@ -178,13 +178,13 @@ const CustomProduct = () => {
               <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black opacity-65"></div>
 
               <div className="container absolute inset-0 mb-7 flex flex-col items-start justify-end">
-                <h1 className="text-5xl font-medium tracking-wide text-white">
+                <h1 className="ml-5 text-5xl font-medium tracking-wide text-white md:ml-0">
                   Bowl
                 </h1>
               </div>
             </Card>
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <BowlTable />
           </div>
         </div>
@@ -192,8 +192,8 @@ const CustomProduct = () => {
       {/* PRICELIST END */}
 
       {/* TRIGGER TO WHATSAPP START */}
-      <div className="container mt-10 flex  py-8 flex-row-reverse items-center justify-between rounded-xl  bg-slate-200 lg:px-20">
-        <div className="relative md:w-[300px] md:h-[400px] lg:h-[500px] lg:w-[450px]">
+      <div className="container mt-10 flex flex-row-reverse items-center justify-between rounded-xl bg-slate-200 py-8 lg:px-20 md:px-20 px-0">
+        <div className="relative h-[300px] w-[300px] md:h-[400px] md:w-[300px] lg:h-[500px] lg:w-[450px]">
           <Card className="relative h-full w-full rounded-lg">
             <Image
               src="/patera-custom.jpeg"
@@ -204,8 +204,8 @@ const CustomProduct = () => {
             />
           </Card>
         </div>
-        <div className="flex w-1/2 flex-col gap-5">
-          <h1 className="lg:text-4xl md:text-3xl font-bold leading-snug text-[#152C5B]">
+        <div className="flex md:w-1/2 w-full flex-col gap-5">
+          <h1 className="font-bold leading-snug text-[#152C5B] md:text-3xl lg:text-4xl">
             Now start customing your own Patera products !
           </h1>
           <p className="text-slate-500">
@@ -215,7 +215,7 @@ const CustomProduct = () => {
             href="https://wa.me/628156611688?text=Hi%20!.%20Saya%20ingin%20custom%20product"
             passHref
           >
-            <Button className="flex w-full items-center justify-center gap-2 transition-transform transform hover:scale-105 duration-300">
+            <Button className="flex w-full transform items-center justify-center gap-2 transition-transform duration-300 hover:scale-105">
               <Image
                 src="/whatsapp.svg"
                 alt="WhatsApp Logo"
@@ -226,19 +226,20 @@ const CustomProduct = () => {
             </Button>
           </Link>
 
-          {/* <p className="text-slate-500">Catalog below as your preferences</p> */}
           <Link
             href="/Catalogue/Patera Catalogue Ceramic.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button className="w-full transition-transform transform hover:scale-105 duration-300">See catalogue pdf</Button>
+            <Button className="w-full transform transition-transform duration-300 hover:scale-105">
+              See catalogue pdf
+            </Button>
           </Link>
         </div>
       </div>
       {/* TRIGGER TO WHATSAPP END */}
 
-      <Footer/>
+      <Footer />
     </main>
   );
 };

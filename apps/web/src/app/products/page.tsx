@@ -1,6 +1,6 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Card } from '@/components/ui/card';
 import {
   Carousel,
@@ -39,10 +39,10 @@ const Page = () => {
   });
 
   return (
-      <section className="padding-container max-container mt-24">
-        <Navbar />
+      <section className="padding-container max-container mt-28">
+        <NavbarFeatures />
         <div className="mt-30 flex justify-center text-xl font-semibold">
-          Stock Products
+          STOCK CUPS
         </div>
 
         {Object.entries(groupedProducts).map(([type, productsByName], i) => (

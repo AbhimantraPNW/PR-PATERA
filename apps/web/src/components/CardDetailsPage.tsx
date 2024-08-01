@@ -44,6 +44,7 @@ const CartDetailsPage = () => {
             `Item ${index + 1}:\n` +
             `Tipe: ${item.type}\n` +
             `Status: ${item.status}\n` +
+            `Size: ${item.size}\n` +
             `Nama Cup: ${item.name}\n` +
             `Total Stok: ${item.totalStock}\n` +
             `Total Harga: ${formatPrice(item.totalPrice)}\n` +
@@ -54,7 +55,7 @@ const CartDetailsPage = () => {
       `Total Harga Pembelian: ${formatPrice(totalPriceAmount)}`;
 
     const encodedMessage = encodeURIComponent(message);
-    const phoneNumber = '6281328869619';
+    const phoneNumber = '6282110012575';
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(url, '_blank');
 
@@ -92,8 +93,9 @@ const CartDetailsPage = () => {
                     />
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-700">{item.name}</h3>
-                      <p className="text-sm text-gray-500">{item.type}</p>
+                      <p className="text-sm text-gray-500">Tipe: {item.type}</p>
                       <p className="text-sm text-gray-500">{item.status}</p>
+                      <p className="text-sm text-gray-500">{item.size}</p>
                       <p className="text-sm text-gray-500">
                         Jumlah: {item.totalStock}
                       </p>

@@ -1,21 +1,19 @@
 import { Footer } from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import React from 'react';
-import ImageGrid from './component/ImageGrid';
 import Link from 'next/link';
+import ImageGrid from './component/ImageGrid';
 
 const Story = () => {
   return (
     <main>
-      <Navbar />
+      <NavbarFeatures />
       <div className="mt-24">
         {/* HEADER START */}
         <div className="rounded-b-3xl bg-slate-50">
-          <div className="container flex h-[500px] w-full items-center">
-            <div className="flex h-full w-1/2 flex-col justify-center gap-4">
-              <h1 className="text-5xl font-bold text-[#152C5B]">
+        <div className="container flex h-[500px] w-full flex-col items-center md:flex-row">
+        <div className="flex h-full w-full flex-col justify-center gap-4 md:w-1/2">
+        <h1 className="text-5xl font-bold text-[#152C5B]">
                 About Patera
               </h1>
               <p className="text-lg">
@@ -23,7 +21,7 @@ const Story = () => {
                 unique ceramics since 2016. Our high-quality, minimalist designs
                 are loved by customers worldwide, including top hotels and
                 coffee shops. Discover more about our story and products by
-                clicking the "Read More" button below.
+                clicking the &apos;Read More&apos; button below.
               </p>
               <Link href="#story" scroll={true}>
                 <Button className="sliding-button w-1/4">
@@ -31,7 +29,7 @@ const Story = () => {
                 </Button>
               </Link>
             </div>
-            <div className="flex h-full w-1/2 flex-col items-center justify-center">
+            <div className="mt-10 flex h-full w-1/2 flex-col items-center justify-center md:mt-0">
               <ImageGrid />
             </div>
           </div>
@@ -39,11 +37,11 @@ const Story = () => {
         {/* HEADER END */}
         
         {/* STORY START */}
-        <div id="story" className="container mx-auto my-20">
+        <div id="story" className="container mx-auto my-20 mt-96 md:mt-0">
           <h1 className="text-center text-5xl font-bold text-[#152C5B]">
             Our Journey
           </h1>
-          <div className="mx-auto my-10 flex w-3/4 flex-col gap-5 text-xl">
+          <div className="mx-auto my-10 flex w-full flex-col gap-5 text-xl md:w-3/4">
             <p>
               Handmade Pottery Product based in Yogyakarta since 2016. All
               Products are thrown at the wheel and glaze in studio with our

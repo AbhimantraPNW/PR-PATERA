@@ -67,7 +67,7 @@ const useUpdateProduct = (productId: number) => {
         description: 'Perubahan produk sukses diganti',
       });
 
-      router.push('/dashboard');
+      router.push('/dashboard/sidebar-menu/tables')
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({

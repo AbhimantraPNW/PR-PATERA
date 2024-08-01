@@ -1,27 +1,25 @@
 import { Footer } from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import { PATERA_BLOG } from '../../../constant';
+import NavbarFeatures from '@/components/NavbarFeatures';
+import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { FC } from 'react';
-
-
+import { PATERA_BLOG } from '../../../constant';
 
 const Blog = () => {
-  
   return (
     <main>
-      <Navbar />
+      <NavbarFeatures />
       <div className="container mt-28">
         <div>
-          <h1 className="text-5xl font-semibold text-[#152C5B]">Our Workshop</h1>
+          <h1 className="text-5xl font-semibold text-[#152C5B]">
+            Our Workshop
+          </h1>
         </div>
 
         <div>
           {PATERA_BLOG.map((blog, index) => (
-            <div className="flex items-center my-10">
-              <div className="relative h-[300px] w-[500px]">
+            <div key={index} className="my-10 flex items-center">
+              <div className="relative h-[300px] w-[350px] md:w-[500px]">
                 <Image
                   src={blog.image}
                   alt="gambar 1"
@@ -30,11 +28,23 @@ const Blog = () => {
                   className="absolute rounded-lg"
                 />
               </div>
-              <div className="w-1/2 flex flex-col gap-3 mx-auto">
-                <h1 className="text-bold text-3xl text-[#152C5B]">{blog.title}</h1>
-                <Badge variant="outline" className="rounded-sm bg-green-100 w-fit">{blog.createdAt}</Badge>
+              <div className="mx-auto flex w-1/2 flex-col gap-3">
+                <h1 className="text-bold text-3xl text-[#152C5B]">
+                  {blog.title}
+                </h1>
+                <Badge
+                  variant="outline"
+                  className="w-fit rounded-sm bg-green-100"
+                >
+                  {blog.createdAt}
+                </Badge>
                 <p className="line-clamp-3">{blog.content}</p>
-                <Link href={`/blog/${index + 1}`} className='underline underline-offset-1 w-fit hover:text-blue-700'>Read more</Link>
+                <Link
+                  href={`/blog/${index + 1}`}
+                  className="w-fit underline underline-offset-1 hover:text-blue-700"
+                >
+                  Read more
+                </Link>
               </div>
             </div>
           ))}
