@@ -11,7 +11,7 @@ type Partnership2 = {
 
 const Partnership = () => {
   return (
-    <section className="padding-container max-container">
+    <section className="padding-container max-container mb-16">
       <div className="mt-10 text-xl font-semibold">PARTNERSHIP</div>
 
       <div className="scroll-container">

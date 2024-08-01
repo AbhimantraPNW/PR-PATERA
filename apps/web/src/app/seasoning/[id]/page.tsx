@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/components/CartContext';
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Card } from '@/components/ui/card';
 import {
   Carousel,
@@ -143,13 +143,32 @@ const Page = ({ params }: { params: { id: string } }) => {
     setCurrentImage(selectedProduct?.images?.[0]?.url);
   }, [selectedProduct]);
 
+  // Generate WhatsApp message URL
+  const generateWhatsAppMessageUrl = () => {
+    const phoneNumber = '6281328869619';
+    const message = `Halo! Saya tertarik dengan produk ini:
+  Name: ${product?.name}
+  Price: ${formatPrice(product?.price)}
+  Size: ${product?.size}
+  ${appConfig.baseUrl}/assets/${currentImage}`;
+
+    const encodedMessage = encodeURIComponent(message);
+
+    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  };
+
+  const handleShareClick = () => {
+    const whatsappUrl = generateWhatsAppMessageUrl();
+    window.location.href = whatsappUrl;
+  };
+
   return (
     <section className="padding-container max-container">
-      <Navbar />
+      <NavbarFeatures />
       <div className="mb-20 mt-36 flex flex-col items-center justify-center px-3 md:flex-row md:justify-between md:px-12">
         <div>
           {/* Product Card */}
-          <Card className="relative h-80 w-80 md:w-96 md:ml-4 ml-0">
+          <Card className="relative ml-0 h-80 w-80 md:ml-4 md:w-96">
             <Image
               src={appConfig.baseUrl + `/assets/${currentImage}`}
               alt="image"
@@ -191,14 +210,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               Jika ingin bertanya lebih lanjut, bisa mengirimkan pesan ke Admin
               kami
             </span>
-            <Link href="/">
+            <button onClick={handleShareClick}>
               <Image
                 src="/whatsapp.svg"
                 alt="Whatsapp Icon"
                 width={30}
                 height={30}
               />
-            </Link>
+            </button>
           </div>
           <Separator className="mt-3" />
           <div className="flex flex-col gap-2 py-4 text-slate-500">
@@ -256,12 +275,12 @@ const Page = ({ params }: { params: { id: string } }) => {
           <h1 className="ml-2 mt-5 text-xl text-slate-500">{status}</h1>
         </div>
       ))}
-      <div className="flex flex-row">
-        {seasonalData.map((cup, i) => (
-          <div key={i}>
-            <Carousel>
-              <div className="flex cursor-pointer flex-row">
-                <CarouselContent>
+      <Carousel>
+        <div className="flex flex-row">
+          <CarouselContent>
+            {seasonalData.map((cup, i) => (
+              <div key={i}>
+                <div className="flex cursor-pointer flex-row">
                   <Link href={`/seasoning/${cup?.id}`}>
                     <div key={i}>
                       <div className="px-1 py-2">
@@ -284,14 +303,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </div>
                     </div>
                   </Link>
-                </CarouselContent>
+                </div>
               </div>
-              <CarouselPrevious className="carousel-button prev" />
-              <CarouselNext className="carousel-button next" />
-            </Carousel>
-          </div>
-        ))}
-      </div>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="carousel-button prev" />
+          <CarouselNext className="carousel-button next" />
+        </div>
+      </Carousel>
     </section>
   );
 };

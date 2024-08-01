@@ -1,10 +1,8 @@
 import { useToast } from '@/components/ui/use-toast';
 import { axiosInstance } from '@/lib/axios';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 
 const useDeleteProduct = () => {
-  const router = useRouter();
   const { toast } = useToast();
 
   const deleteProduct = async (id: number) => {
@@ -16,7 +14,8 @@ const useDeleteProduct = () => {
         description: 'Produk sukses dihapus',
       });
 
-      router.push('/dashboard');
+      // Reload page
+      window.location.reload()
     } catch (error) {
       if (error instanceof AxiosError) {
         toast({

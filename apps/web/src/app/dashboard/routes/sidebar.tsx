@@ -30,11 +30,11 @@ const routes: IRoute[] = [
     name: 'Dashboard', // name that appear in Sidebar
     exact: true,
   },
-  {
-    path: '/dashboard/sidebar-menu/forms',
-    icon: 'FormsIcon',
-    name: 'Forms',
-  },
+  // {
+  //   path: '/dashboard/sidebar-menu/forms',
+  //   icon: 'FormsIcon',
+  //   name: 'Forms',
+  // },
   // {
   //   path: '/dashboard/sidebar-menu/charts',
   //   icon: 'ChartsIcon',
@@ -43,7 +43,7 @@ const routes: IRoute[] = [
   {
     path: '/dashboard/sidebar-menu/tables',
     icon: 'TablesIcon',
-    name: 'Tables',
+    name: 'Tables Edit and Delete',
   },
   {
     icon: 'PagesIcon',

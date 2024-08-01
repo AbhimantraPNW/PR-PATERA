@@ -123,6 +123,12 @@ html {
   -webkit-mask-position: right;
 }
 
+/* -- */
+/* Coffeeshop Hero Testimonial */
+.card-image-container {
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
 
 /* -- */
 /* Navbar */

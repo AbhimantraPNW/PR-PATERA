@@ -1,6 +1,6 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Card } from '@/components/ui/card';
 import useGetProducts from '@/hooks/api/admin/product/useGetProducts';
 import { appConfig } from '@/utils/config';
@@ -14,8 +14,8 @@ const Page = () => {
   const router = useRouter();
 
   return (
-    <section className="padding-container max-container mt-24">
-      <Navbar />
+    <section className="padding-container max-container mt-28">
+      <NavbarFeatures />
       <div className="mt-30 flex justify-center text-xl font-semibold">
         SEASONING CUPS
       </div>
@@ -25,7 +25,7 @@ const Page = () => {
         {products.map((product, i) => (
           <div key={i} className="flex flex-col">
             <Link href={`/seasoning/${product.id}`}>
-              <Card className="relative h-80 w-full cursor-pointer">
+              <Card className="relative md:h-80 h-48 w-full cursor-pointer">
                 <Image
                   src={appConfig.baseUrl + `/assets${product.images?.[0]?.url}`}
                   alt="Image"

@@ -1,11 +1,12 @@
-'use client'
+'use client';
+
 import { Footer } from '@/components/Footer';
-import Navbar from '@/components/Navbar';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { PATERA_BLOG } from '../../../../constant';
+import NavbarFeatures from '@/components/NavbarFeatures';
 
 interface BlogPost {
   image: string;
@@ -31,7 +32,7 @@ const BlogDetail = () => {
   if (!blog) {
     return (
       <main>
-        <Navbar />
+        <NavbarFeatures />
         <div className="container mt-28">
           <h1>Blog post not found</h1>
         </div>
@@ -41,11 +42,16 @@ const BlogDetail = () => {
   }
   return (
     <main>
-      <Navbar />
-      <div className="container mt-28 flex flex-col gap-6 my-6">
-        <div className='mx-auto w-3/4'>
+      <NavbarFeatures />
+      <div className="container my-6 mt-28 flex flex-col gap-6">
+        <div className="mx-auto w-3/4">
           <h1 className="text-4xl font-bold text-[#152C5B]">{blog.title}</h1>
-          <Badge variant="outline" className="rounded-sm mt-4 bg-green-100 w-fit">{blog.createdAt}</Badge>
+          <Badge
+            variant="outline"
+            className="mt-4 w-fit rounded-sm bg-green-100"
+          >
+            {blog.createdAt}
+          </Badge>
         </div>
         <div className="relative h-[500px] w-full">
           <Image
@@ -56,7 +62,7 @@ const BlogDetail = () => {
             className="absolute rounded-lg"
           />
         </div>
-        <div className="mx-auto w-3/4">
+        <div className="mx-auto w-full md:w-3/4">
           <p>{blog.content}</p>
         </div>
       </div>

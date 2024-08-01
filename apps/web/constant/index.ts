@@ -146,3 +146,22 @@ export const PATERA_BLOG = [
       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
   },
 ];
+
+//COFEESHOP TESTIMONIAL
+export const COFFEESHOP_TESTIMONIAL1 = [
+  { image: '/Coffeeshop/coffeeshop1.jpg', label: 'Coffeeshop1' },
+  { image: '/Coffeeshop/coffeeshop2.jpg', label: 'Coffeeshop2' },
+  { image: '/Coffeeshop/coffeeshop3.png', label: 'Coffeeshop3' },
+];
+
+export const COFFEESHOP_TESTIMONIAL2 = [
+  { image: '/Coffeeshop/coffeeshop2.jpg', label: 'Coffeeshop4' },
+  { image: '/Coffeeshop/coffeeshop3.png', label: 'Coffeeshop5' },
+  { image: '/Coffeeshop/coffeeshop1.jpg', label: 'Coffeeshop6' },
+];
+
+export const COFFEESHOP_TESTIMONIAL3 = [
+  { image: '/Coffeeshop/coffeeshop3.png', label: 'Coffeeshop7' },
+  { image: '/Coffeeshop/coffeeshop1.jpg', label: 'Coffeeshop8' },
+  { image: '/Coffeeshop/coffeeshop2.jpg', label: 'Coffeeshop9' },
+];

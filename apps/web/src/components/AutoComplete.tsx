@@ -40,7 +40,7 @@ const AutoComplete = () => {
       className="mx-auto my-4 max-w-[650px]"
       loadOptions={debouncedLoadOptions}
       onChange={(product) => {
-        router.push(`dashboard#${product?.value}`);
+        router.push(`/dashboard/sidebar-menu/forms/edit/${product?.value}`);
       }}
     />
   );

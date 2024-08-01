@@ -1,7 +1,7 @@
 'use client';
 
 import { useCart } from '@/components/CartContext';
-import Navbar from '@/components/Navbar';
+import NavbarFeatures from '@/components/NavbarFeatures';
 import { Card } from '@/components/ui/card';
 import {
   Carousel,
@@ -15,7 +15,7 @@ import useGetProduct from '@/hooks/api/admin/product/useGetProduct';
 import useGetProducts from '@/hooks/api/admin/product/useGetProducts';
 import { Product } from '@/types/product.types';
 import { appConfig } from '@/utils/config';
-import { Button, Label, Select } from '@roketid/windmill-react-ui';
+import { Label, Select } from '@roketid/windmill-react-ui';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -141,9 +141,28 @@ const Page = ({ params }: { params: { id: string } }) => {
     setCurrentImage(selectedProduct?.images?.[0]?.url);
   }, [selectedProduct]);
 
+  // Generate WhatsApp message URL
+  const generateWhatsAppMessageUrl = () => {
+    const phoneNumber = '6281328869619';
+    const message = `Halo! Saya tertarik dengan produk ini:
+Name: ${product?.name}
+Price: ${formatPrice(product?.price)}
+Size: ${product?.size}
+${appConfig.baseUrl}/assets/${currentImage}`;
+
+    const encodedMessage = encodeURIComponent(message);
+
+    return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  };
+
+  const handleShareClick = () => {
+    const whatsappUrl = generateWhatsAppMessageUrl();
+    window.location.href = whatsappUrl;
+  };
+
   return (
     <section className="padding-container max-container">
-      <Navbar />
+      <NavbarFeatures />
       <div className="mb-10 mt-36 flex flex-col items-center justify-center px-3 md:px-12 md:flex-row md:justify-between">
         <div>
           {/* Product Card */}
@@ -190,14 +209,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               Jika ingin bertanya lebih lanjut, bisa mengirimkan pesan ke Admin
               kami
             </span>
-            <Link href="/">
+            <button onClick={handleShareClick}>
               <Image
                 src="/whatsapp.svg"
                 alt="Whatsapp Icon"
                 width={30}
                 height={30}
               />
-            </Link>
+            </button>
           </div>
           <Separator className="mt-3" />
           <div className="flex flex-col gap-2 py-4 text-slate-500">

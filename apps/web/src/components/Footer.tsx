@@ -40,7 +40,7 @@ export const Footer = () => {
 
           {DEVELOPER_TEAM.map((developer: DeveloperTeamProps, index) => (
             <div
-              className="mt-8 flex flex-col mx-4 gap-2 md:mt-0 md:gap-3"
+              className="mt-8 flex flex-col md:mx-4 mx-0 gap-2 md:mt-0 md:gap-3"
               key={index}
             >
               {developer.title}
